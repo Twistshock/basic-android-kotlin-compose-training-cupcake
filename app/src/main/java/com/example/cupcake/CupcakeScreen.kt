@@ -46,12 +46,39 @@ import com.example.cupcake.data.DataSource
 import com.example.cupcake.ui.OrderSummaryScreen
 import com.example.cupcake.ui.SelectOptionScreen
 import com.example.cupcake.ui.StartOrderScreen
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 
 enum class CupcakeScreen(){
     Start,
     Flavor,
     Pickup,
     Summary
+}
+
+/**
+ * Creates slide transition animations for navigation between screens.
+ * Screens slide in from right and out to left when navigating forward.
+ * Screens slide in from left and out to right when navigating back (pop).
+ */
+private fun slideTransitions() = object {
+    val enterTransition = slideInHorizontally(
+        initialOffsetX = { fullWidth -> fullWidth },
+        animationSpec = tween(300)
+    )
+    val exitTransition = slideOutHorizontally(
+        targetOffsetX = { fullWidth -> -fullWidth },
+        animationSpec = tween(300)
+    )
+    val popEnterTransition = slideInHorizontally(
+        initialOffsetX = { fullWidth -> -fullWidth },
+        animationSpec = tween(300)
+    )
+    val popExitTransition = slideOutHorizontally(
+        targetOffsetX = { fullWidth -> fullWidth },
+        animationSpec = tween(300)
+    )
 }
 
 /**
@@ -115,7 +142,13 @@ fun CupcakeApp(
                         .padding(dimensionResource((R.dimen.padding_medium)))
                 )
             }
-            composable(route = CupcakeScreen.Flavor.name) {
+            composable(
+                route = CupcakeScreen.Flavor.name,
+                enterTransition = { slideTransitions().enterTransition },
+                exitTransition = { slideTransitions().exitTransition },
+                popEnterTransition = { slideTransitions().popEnterTransition },
+                popExitTransition = { slideTransitions().popExitTransition }
+            ) {
                 val context = LocalContext.current
                 SelectOptionScreen(
                     subtotal = uiState.price,
