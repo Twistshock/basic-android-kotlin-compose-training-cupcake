@@ -108,12 +108,24 @@ fun SelectQuantityButton(
     }
 }
 
+@Composable
+fun StartOrderScreen(
+    quantityOptions: List<Pair<Int, Int>>,
+    onNextButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier
+        .fillMaxSize()
+        .padding(dimensionResource(R.dimen.padding_medium))
+){
+
+}
+
 @Preview
 @Composable
 fun StartOrderPreview() {
     CupcakeTheme {
         StartOrderScreen(
             quantityOptions = DataSource.quantityOptions,
+            onNextButtonClicked = {},
             modifier = Modifier
                 .fillMaxSize()
                 .padding(dimensionResource(R.dimen.padding_medium))
