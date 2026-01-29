@@ -49,6 +49,7 @@ import com.example.cupcake.ui.theme.CupcakeTheme
 @Composable
 fun StartOrderScreen(
     quantityOptions: List<Pair<Int, Int>>,
+    onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -83,7 +84,8 @@ fun StartOrderScreen(
             quantityOptions.forEach { item ->
                 SelectQuantityButton(
                     labelResourceId = item.first,
-                    onClick = {}
+                    onClick = { onNextButtonClicked(item.second) },
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }
@@ -106,17 +108,6 @@ fun SelectQuantityButton(
     ) {
         Text(stringResource(labelResourceId))
     }
-}
-
-@Composable
-fun StartOrderScreen(
-    quantityOptions: List<Pair<Int, Int>>,
-    onNextButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier
-        .fillMaxSize()
-        .padding(dimensionResource(R.dimen.padding_medium))
-){
-
 }
 
 @Preview
